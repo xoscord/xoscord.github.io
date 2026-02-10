@@ -3,7 +3,10 @@
 <head>
   <meta charset="UTF-8" />
 
-  <!-- Inline SVG as tab icon -->
+  <!-- REQUIRED for mobile compatibility -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Inline SVG tab icon -->
   <link rel="icon" type="image/svg+xml"
     href='data:image/svg+xml,
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
@@ -21,22 +24,24 @@
       margin: 0;
       padding: 0;
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      -webkit-tap-highlight-color: transparent;
     }
 
     body {
-      min-height: 100vh;
+      min-height: 100svh;
       background: radial-gradient(circle at top, #161b22, #0d1117);
       color: #e6edf3;
       display: flex;
       align-items: center;
       justify-content: center;
+      padding: 1rem;
     }
 
     .card {
       background: #0d1117;
       border: 1px solid #30363d;
-      border-radius: 16px;
-      padding: 2.5rem;
+      border-radius: 18px;
+      padding: 2rem 1.5rem;
       width: 100%;
       max-width: 420px;
       text-align: center;
@@ -44,53 +49,63 @@
     }
 
     .logo {
-      width: 64px;
-      height: 64px;
-      margin: 0 auto 1rem;
+      width: 72px;
+      height: 72px;
+      margin: 0 auto 1.2rem;
     }
 
     h1 {
-      font-size: 1.8rem;
+      font-size: clamp(1.4rem, 5vw, 1.8rem);
       margin-bottom: 0.5rem;
     }
 
     p {
       color: #9da7b3;
-      margin-bottom: 2rem;
-      font-size: 0.95rem;
+      margin-bottom: 1.8rem;
+      font-size: clamp(0.9rem, 3.8vw, 1rem);
+      line-height: 1.5;
     }
 
     .btn {
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 0.6rem;
-      padding: 0.8rem 1.2rem;
+      gap: 0.7rem;
+      padding: 0.9rem 1.2rem;
       margin: 0.6rem 0;
-      border-radius: 10px;
+      border-radius: 12px;
       border: 1px solid #30363d;
       background: #161b22;
       color: #e6edf3;
       text-decoration: none;
-      font-size: 0.95rem;
-      transition: transform 0.15s ease, background 0.15s ease;
+      font-size: 1rem;
+      min-height: 48px; /* touch-friendly */
+      transition: background 0.15s ease, transform 0.1s ease;
     }
 
-    .btn:hover {
+    .btn:active {
+      transform: scale(0.97);
       background: #1f2937;
-      transform: translateY(-2px);
     }
 
     .btn svg {
-      width: 18px;
-      height: 18px;
+      width: 20px;
+      height: 20px;
       fill: currentColor;
+      flex-shrink: 0;
     }
 
     footer {
-      margin-top: 1.8rem;
+      margin-top: 1.6rem;
       font-size: 0.75rem;
       color: #6e7681;
+    }
+
+    /* Small screens refinement */
+    @media (max-width: 360px) {
+      .card {
+        padding: 1.5rem 1.2rem;
+      }
     }
   </style>
 </head>
@@ -107,7 +122,6 @@
     <h1>Hello 👋</h1>
     <p>Your GitHub Pages site is live.</p>
 
-    <!-- Button with SVG icon -->
     <a class="btn" href="Tone/">
       <svg viewBox="0 0 24 24">
         <path d="M3 10v4h2l3 3V7L5 10H3zm13.5 2a4.5 4.5 0 0 0-2.4-4v8a4.5 4.5 0 0 0 2.4-4z"/>
@@ -136,4 +150,3 @@
   </div>
 </body>
 </html>
-
