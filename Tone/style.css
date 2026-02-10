@@ -1,0 +1,330 @@
+@font-face {
+  font-family: 'font1';
+  src: url('/share/font.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'font2';
+  src: url('/share/font2.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'font3';
+  src: url('/share/font3.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'font4';
+  src: url('/share/font4.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+/* Full screen layout */
+body {
+    margin: 0;
+    padding: 0;
+    background: white;
+    color: black;
+    font-family: "Segoe UI", Arial, sans-serif;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Main app wrapper */
+.app {
+    width: 100%;
+    max-width: 500px;
+    padding: 25px;
+    text-align: center;
+    font-family: 'font1'; /* Apply font1 to all text in .app */
+}
+
+/* Heading */
+h1 {
+    font-size: 2rem;
+    margin-bottom: 25px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    font-family: 'font2'; /* Keep font2 for heading */
+}
+
+/* Panel container */
+.panel {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 25px;
+    border-radius: 16px;
+    box-shadow: 0 0 30px rgba(0,0,0,0.4);
+    backdrop-filter: blur(10px);
+}
+
+/* Controls spacing */
+.control {
+    margin: 20px 0;
+    text-align: left;
+}
+
+/* Labels */
+.control label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 1.05rem;
+    font-family: 'font3'; /* Apply font3 to labels */
+}
+
+/* Sliders */
+input[type=range] {
+    width: 100%;
+    height: 8px;
+    border-radius: 4px;
+    appearance: none;
+    background: #333;
+    outline: none;
+    font-family: 'font2'; /* Apply font2 to range sliders */
+}
+
+/* For the text inside range slider (browser dependent) */
+input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 18px;
+    height: 18px;
+    background: #4CAF50;
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 0 8px #4CAF50;
+}
+
+/* For frequency value display */
+#freqValue {
+    font-size: 22px;
+    font-family: 'font2'; /* Apply font2 to the frequency value */
+}
+
+/* Select dropdown */
+select {
+    width: 100%;
+    padding: 10px;
+    border-radius: 8px;
+    background: white;
+    color: black;
+    font-size: 1rem;
+    font-weight: 800;
+    border: 3px solid black;
+    font-family: 'font1'; /* Apply font3 to dropdown */
+}
+
+/* Buttons */
+button {
+    width: 100%;
+    padding: 15px;
+    font-size: 1.2rem;
+    border-radius: 10px;
+    border: 2px solid black;
+    margin-top: 15px;
+    background: skyblue;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.2s ease;
+    box-shadow: 0 0 12px rgba(0, 191, 255, 0.6);
+    font-family: 'font2'; /* Apply font2 to button */
+}
+
+button:hover {
+    transform: scale(1.03);
+}
+
+/* Mobile Responsive */
+@media (max-width: 480px) {
+    h1 {
+        font-size: 1.6rem;
+    }
+    .panel {
+        padding: 18px;
+    }
+    .hl1 {
+        font-size:2rem;
+    }
+    .first-word {
+        font-size: 1.3rem;
+        text-transform:uppercase;
+    }
+    
+    .second-word {
+        font-size: 1rem;
+    }
+}
+}
+/* Specific control fonts */
+/*.control:nth-child(1) label { font-family: 'font3'; } /* Frequency label */
+/*.control:nth-child(2) label { font-family: 'font4'; } /* Volume label */
+.first-word {
+  font-size:1.8rem;
+  letter-spacing:1px;
+  text-transform:uppercase;
+}
+.second-word {
+  font-size:1.5rem;
+  letter-spacing:1px;
+}
+
+
+
+/* Custom Select Styles */
+.custom-select {
+    position: relative;
+    text-indent:1em;
+    width: 90%;
+}
+
+.select-trigger {
+    width: 85%;
+    padding: 5px;
+    border-radius: 12px;
+    background: white;
+    color: black;
+    font-size: 1.1rem;
+    font-weight: 700;
+    border: 3px solid #000;
+    font-family: 'font1';
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.select-trigger:hover {
+    border-color: #00BFFF;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 191, 255, 0.2);
+}
+
+.select-trigger.active {
+    border-color: #00BFFF;
+    border-bottom-left-radius: 25px;
+    border-bottom-right-radius: 0;
+    /*box-shadow: 0 0 0 3px rgba(0, 191, 255, 0.3);*/
+}
+
+.arrow {
+    transition: transform 0.3s ease;
+    font-size: 1.2rem;
+    color: #00BFFF;
+}
+
+.select-trigger.active .arrow {
+    transform: rotate(180deg);
+}
+
+.select-options {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 11%;
+    background: white;
+    border: 3px solid #000;
+    border-top: 3px solid black;
+    border-radius: 45px 98px 45px 45px;
+    box-shadow: 0 6px 25px rgba(0, 0, 0, 0.15);
+    display: none;
+    z-index: 1000;
+    max-height: 300px;
+    overflow-y: auto;
+    overflow-x: none;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.select-options.show {
+    display: block;
+    animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.option {
+    text-indent:2em;
+    padding: 5px;
+    font-size: 1rem;
+    font-weight: 600;
+    font-family: 'font1';
+    cursor: pointer;
+    border-bottom: none;
+    transition: all 0.2s ease;
+}
+
+.option:hover {
+    background: #00BFFF;
+    color: white;
+    transform: translateX(5px);
+}
+
+.option:last-child {
+    border-bottom: none;
+}
+
+.option.selected {
+    background: #007acc;
+    color: white;
+}
+
+/* Mobile improvements */
+@media (max-width: 480px) {
+    .select-trigger {
+        padding: 8px;
+        font-size: 1.2rem;
+    }
+    
+    .option {
+        padding: 8px;
+        font-size: 1.1rem;
+        min-height: 10px;
+        display: flex;
+        align-items: center;
+    }
+    
+    .select-options {
+        max-height: 250px;
+    }
+}
+
+/* Close dropdown when clicking outside */
+body.dropdown-open {
+    position: relative;
+}
+
+body.dropdown-open::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: transparent;
+    z-index: 999;
+}
+.select-options {
+    display: none;
+    position: absolute;
+    /* other styles */
+}
+
+.select-options.show {
+    display: block;
+}
