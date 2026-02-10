@@ -1,24 +1,24 @@
 @font-face {
   font-family: 'font1';
-  src: url('/share/font.ttf') format('truetype');
+  src: url('font.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
 }
 @font-face {
   font-family: 'font2';
-  src: url('/share/font2.ttf') format('truetype');
+  src: url('font2.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
 }
 @font-face {
   font-family: 'font3';
-  src: url('/share/font3.ttf') format('truetype');
+  src: url('font3.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
 }
 @font-face {
   font-family: 'font4';
-  src: url('/share/font4.ttf') format('truetype');
+  src: url('font4.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
 }
