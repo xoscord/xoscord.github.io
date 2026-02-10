@@ -28,7 +28,7 @@ h1 {
   margin-bottom: 1rem;
 }
 
-button {
+button.file {
   width: 100%;
   padding: 0.9rem 1rem;
   margin-bottom: 0.6rem;
@@ -40,12 +40,44 @@ button {
   cursor: pointer;
 }
 
-button:hover {
+button.file:hover {
   background: #1f2937;
 }
 
-pre {
+.viewer-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   margin-top: 1rem;
+}
+
+.filename {
+  font-size: 0.85rem;
+  color: #9da7b3;
+}
+
+.copy-btn {
+  background: #161b22;
+  border: 1px solid #30363d;
+  border-radius: 8px;
+  padding: 0.4rem 0.6rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.copy-btn svg {
+  width: 18px;
+  height: 18px;
+  fill: #e6edf3;
+}
+
+.copy-btn.copied svg {
+  fill: #3fb950;
+}
+
+pre {
+  margin-top: 0.6rem;
   padding: 1rem;
   background: #010409;
   border: 1px solid #30363d;
@@ -55,12 +87,6 @@ pre {
   line-height: 1.5;
   white-space: pre;
 }
-
-.filename {
-  margin-top: 1rem;
-  font-size: 0.85rem;
-  color: #9da7b3;
-}
 </style>
 </head>
 
@@ -68,33 +94,62 @@ pre {
 
 <h1>🐍 Python Files</h1>
 
-<button onclick="openFile('Clock.pyw')">Clock.pyw</button>
-<button onclick="openFile('INVADER.pyw')">INVADER.pyw</button>
+<button class="file" onclick="openFile('Clock.pyw')">Clock.pyw</button>
+<button class="file" onclick="openFile('INVADER.pyw')">INVADER.pyw</button>
 
-<div class="filename" id="fname"></div>
-<pre id="viewer">Select a file to view source</pre>
+<div class="viewer-header">
+  <div class="filename" id="fname"></div>
+
+  <button class="copy-btn" id="copyBtn" onclick="copyCode()" title="Copy">
+    <!-- Copy SVG -->
+    <svg viewBox="0 0 24 24">
+      <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/>
+    </svg>
+  </button>
+</div>
+
+<pre id="viewer">Loading...</pre>
 
 <script>
 const RAW_BASE =
   "https://raw.githubusercontent.com/xoscord/xoscord.github.io/main/Python/";
 
+let currentText = "";
+
 function openFile(file) {
   document.getElementById("fname").textContent = file;
+  const viewer = document.getElementById("viewer");
+  viewer.textContent = "Loading...";
+  currentText = "";
 
   fetch(RAW_BASE + file)
     .then(res => {
-      if (!res.ok) throw new Error();
+      if (!res.ok) throw new Error("404");
       return res.text();
     })
     .then(text => {
-      document.getElementById("viewer").textContent = text;
+      currentText = text;
+      viewer.textContent = text;
       window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
     })
     .catch(() => {
-      document.getElementById("viewer").textContent =
-        "❌ Failed to load file.";
+      viewer.textContent = "❌ Failed to load file.";
     });
 }
+
+function copyCode() {
+  if (!currentText) return;
+
+  navigator.clipboard.writeText(currentText).then(() => {
+    const btn = document.getElementById("copyBtn");
+    btn.classList.add("copied");
+
+    setTimeout(() => btn.classList.remove("copied"), 900);
+  });
+}
+
+/* ✅ AUTO-OPEN FIRST FILE */
+openFile("Clock.pyw");
 </script>
 
 </body>
