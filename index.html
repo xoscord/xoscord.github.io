@@ -3,10 +3,8 @@
 <head>
   <meta charset="UTF-8" />
 
-  <!-- REQUIRED for mobile compatibility -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <!-- Inline SVG tab icon -->
   <link rel="icon" type="image/svg+xml"
     href='data:image/svg+xml,
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
@@ -15,9 +13,6 @@
               stroke="%2358a6ff"
               stroke-width="6"/>
     </svg>'>
-
-
-
 
   <title>xoscord</title>
 
@@ -28,6 +23,10 @@
       padding: 0;
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       -webkit-tap-highlight-color: transparent;
+      
+      /* Prevents user text selection */
+      -webkit-user-select: none;
+      user-select: none;
     }
 
     body {
@@ -62,6 +61,18 @@
       margin-bottom: 0.5rem;
     }
 
+    .site-link {
+      display: inline-block;
+      color: #58a6ff;
+      text-decoration: none;
+      margin-bottom: 0.5rem;
+      font-size: 1rem;
+    }
+
+    .site-link:hover {
+      text-decoration: underline;
+    }
+
     p {
       color: #9da7b3;
       margin-bottom: 1.8rem;
@@ -84,6 +95,7 @@
       font-size: 1rem;
       min-height: 48px; /* touch-friendly */
       transition: background 0.15s ease, transform 0.1s ease;
+      cursor: pointer;
     }
 
     .btn:active {
@@ -110,68 +122,63 @@
         padding: 1.5rem 1.2rem;
       }
     }
+    /* Ensures the mouse cursor changes to a pointer, mimicking a link */
+    .btn {
+      cursor: pointer;
+    }
+    
   </style>
 </head>
 
 <body>
   <div class="card">
 
-    <!-- Inline SVG Logo -->
     <svg class="logo" viewBox="0 0 100 100">
       <rect width="100" height="100" rx="22" fill="#161b22"/>
       <path d="M30 70 L50 30 L70 70 Z" fill="#58a6ff"/>
     </svg>
 
-    <div href="https://xoscord.github.io" traget="_blank">xoscord.github.io</div>
-    <p>ℙ𝕣𝕠𝕛𝕖𝕔𝕥 11 </p>
+    <h1>xoscord</h1>
+    <a class="site-link" href="https://xoscord.github.io" target="_blank">xoscord.github.io</a>
+    <p>Project 11</p>
 
-
-
-    <div class="btn" src="/Python/" target="_self">
+    <div class="btn" data-href="/Python/">
       <svg viewBox="0 0 24 24">
-        <path fill="#3776AB" d="M12 2c-4 0-4 2-4 2v2h4v1H6c-2 0-4 1-4 4v3
-        c0 3 3 3 3 3h2v-3s0-4 4-4h4c2 0 4-1 4-4V6c0-3-3-4-7-4z"/>
-        <path fill="#FFD43B" d="M12 22c4 0 4-2 4-2v-2h-4v-1h6c2 0 4-1 4-4v-3
-        c0-3-3-3-3-3h-2v3s0 4-4 4h-4c-2 0-4 1-4 4v2c0 3 3 4 7 4z"/>
+        <path fill="#3776AB" d="M12 2c-4 0-4 2-4 2v2h4v1H6c-2 0-4 1-4 4v3c0 3 3 3 3 3h2v-3s0-4 4-4h4c2 0 4-1 4-4V6c0-3-3-4-7-4z"/>
+        <path fill="#FFD43B" d="M12 22c4 0 4-2 4-2v-2h-4v-1h6c2 0 4-1 4-4v-3c0-3-3-3-3-3h-2v3s0 4-4 4h-4c-2 0-4 1-4 4v2c0 3 3 4 7 4z"/>
       </svg>
       Python
     </div>
-
-
     
-
-    <div class="btn" src="/Tone/">
+    <div class="btn" data-href="/Tone/">
       <svg viewBox="0 0 24 24">
         <path d="M3 10v4h2l3 3V7L5 10H3zm13.5 2a4.5 4.5 0 0 0-2.4-4v8a4.5 4.5 0 0 0 2.4-4z"/>
       </svg>
       Open Tone
     </div>
 
-
-    
-
-    <!--<a class="btn" href="https://github.com/xoscord/XgenTech.Bionics" target="_blank">
-      <svg viewBox="0 0 24 24">
-        <path d="M12 .5a12 12 0 0 0-3.8 23.4c.6.1.8-.2.8-.5v-2
-        c-3.3.7-4-1.4-4-1.4a3.1 3.1 0 0 0-1.3-1.7c-1.1-.7.1-.7.1-.7
-        a2.5 2.5 0 0 1 1.8 1.3 2.6 2.6 0 0 0 3.5 1
-        2.6 2.6 0 0 1 .8-1.6c-2.6-.3-5.3-1.3-5.3-5.8
-        a4.5 4.5 0 0 1 1.2-3.1 4.2 4.2 0 0 1 .1-3.1
-        s1-.3 3.2 1.2a11 11 0 0 1 5.8 0C16.9 5 18 5.3 18 5.3
-        a4.2 4.2 0 0 1 .1 3.1 4.5 4.5 0 0 1 1.2 3.1
-        c0 4.5-2.7 5.5-5.3 5.8a2.9 2.9 0 0 1 .9 2.2v3.3
-        c0 .3.2.6.8.5A12 12 0 0 0 12 .5z"/>
-      </svg>
-      GitHub
-    </a>-->
-
     <footer>
-      © xoscord • Open Source
+      &copy; xoscord &bull; Open Source
     </footer>
   </div>
-<script>document.addEventListener('contextmenu' , function(e) {
-  e.preventDefault();
-});</script>
+
+  <script>
+    document.addEventListener('contextmenu', function(e) {
+      e.preventDefault();
+    });
+
+    document.querySelectorAll('.btn[data-href]').forEach(button => {
+      button.addEventListener('click', function() {
+        const url = this.getAttribute('data-href');
+        // For opening in the same tab:
+        window.location.href = url;
+        
+        // OR for opening in a new tab, use:
+        // window.open(url, '_blank');
+      });
+    });
+    
+  </script>
   
 </body>
 </html>
