@@ -146,6 +146,34 @@ pre {
   -webkit-user-select: text;
   user-select: text; 
 }
+
+/* 1. For Chrome, Safari, Edge, and iOS (WebKit) */
+pre::-webkit-scrollbar {
+  width: 10px;          /* Width of vertical scrollbar */
+  height: 10px;         /* Height of horizontal scrollbar */
+}
+
+pre::-webkit-scrollbar-track {
+  background: #010409;  /* Matches your <pre> background (removes white box) */
+  border-radius: 12px;
+}
+
+pre::-webkit-scrollbar-thumb {
+  background: #30363d;  /* The draggable handle color */
+  border: 2px solid #010409; /* Creates padding around the handle */
+  border-radius: 12px;
+}
+
+pre::-webkit-scrollbar-thumb:hover {
+  background: #8b949e;  /* Brightens when hovered */
+}
+
+/* 2. For Firefox */
+pre {
+  scrollbar-width: thin;
+  scrollbar-color: #30363d #010409; /* thumb color | track color */
+}
+  
 </style>
 </head>
 
