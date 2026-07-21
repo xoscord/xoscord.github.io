@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+<link rel="icon" type="image/svg+xml"
+  href='data:image/svg+xml,
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+    <circle cx="50" cy="50" r="32" fill="none"
+            stroke="%233776AB" stroke-width="6"/>
+  </svg>'>
+
+<title>Python Code Viewer</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.css">
+
+<style>
+@font-face {
+  font-family: 'font5';
+  src: url('/Tone/font5.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'font';
+  src: url('/Tone/font.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+* {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+  
+  /* Disables accidental text highlighting on UI elements */
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+body {
+  margin: 0;
+  padding: 1rem;
+  background: #0d1117;
+  color: #e6edf3;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  min-height: 100svh;
+}
+
+h1 {
+  font-size: 1.4rem;
+  margin-bottom: 1rem;
+  font-family: font5, sans-serif;
+}
+
+/* ---------- FILE LIST ---------- */
+#fileList button {
+  width: 100%;
+  padding: 0.9rem 1rem;
+  margin-bottom: 0.6rem;
+  border-radius: 12px;
+  background: #161b22;
+  border: 1px solid #30363d;
+  color: #e6edf3;
+  font-size: 1rem;
+  cursor: pointer;
+  font-family: font, sans-serif;
+  text-align: left;
+}
+#fileList button:hover {
+  background: #1f2937;
+}
+
+/* ---------- VIEWER ---------- */
+#viewerPanel {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: #0d1117;
+  padding: 1rem;
+  padding-bottom: env(safe-area-inset-bottom, 1rem);
+  animation: slideUp 0.25s ease;
+  z-index: 9999;
+}
+
+@keyframes slideUp {
+  from { transform: translateY(100%); }
+  to   { transform: translateY(0); }
+}
+
+.viewer-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6rem;
+  margin-bottom: 0.6rem;
+  height: 44px;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.filename {
+  font-size: 0.85rem;
+  color: #9da7b3;
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-align: center;
+}
+
+.icon-btn {
+  background: #161b22;
+  border: 1px solid #30363d;
+  border-radius: 10px;
+  padding: 0.45rem 0.6rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  min-width: 44px;
+}
+
+.icon-btn:hover {
+  background: #1f2937;
+}
+
+.icon-btn svg {
+  width: 18px;
+  height: 18px;
+  fill: #e6edf3;
+  transition: transform 0.2s ease, fill 0.2s ease;
+}
+
+.icon-btn.copied svg {
+  fill: #3fb950;
+  transform: scale(1.15);
+}
+
+/* GitHub Code Viewer Container Styles */
+pre[class*="language-"] {
+  height: calc(100svh - 44px - 2rem - env(safe-area-inset-bottom, 0px));
+  margin: 0;
+  padding: 1rem 1rem 1rem 3.8rem !important;
+  background: #0d1117 !important;
+  border: 1px solid #30363d;
+  border-radius: 12px;
+  overflow: auto;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  white-space: pre;
+  -webkit-overflow-scrolling: touch;
+  -webkit-user-select: text;
+  user-select: text; 
+}
+
+/* Customizing Prism Line Numbers to match GitHub style */
+.line-numbers .line-numbers-rows {
+  border-right: 1px solid #30363d !important;
+  padding-top: 1rem !important;
+}
+
+.line-numbers-rows > span:before {
+  color: #6e7681 !important;
+}
+
+/* WebKit Scrollbar Styling */
+pre::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+pre::-webkit-scrollbar-track {
+  background: #0d1117;
+  border-radius: 12px;
+}
+
+pre::-webkit-scrollbar-thumb {
+  background: #30363d;
+  border: 2px solid #0d1117;
+  border-radius: 12px;
+}
+
+pre::-webkit-scrollbar-thumb:hover {
+  background: #8b949e;
+}
+
+pre {
+  scrollbar-width: thin;
+  scrollbar-color: #30363d #0d1117;
+}
+</style>
+</head>
+
+<body>
+
+  <button class="icon-btn" onclick="history.back()" title="Back">
+    <svg viewBox="0 0 24 24">
+      <path d="M15 18l-6-6 6-6"/>
+    </svg>
+  </button>
+  
+  <h1>☯ Python Programs</h1>
+
+  <div id="fileList">
+    <button onclick="openFile('Space_Invaders.pyw')">Space_Invaders.pyw</button>
+    <button onclick="openFile('Clock.py')">Clock.py</button>
+    <button onclick="openFile('INVADER.py')">INVADER Game.py</button>
+    <button onclick="openFile('Calculator.py')">Calculator.py</button>
+  </div>
+
+  <div id="viewerPanel">
+    <div class="viewer-header">
+      <button class="icon-btn" onclick="goBack()" title="Back">
+        <svg viewBox="0 0 24 24">
+          <path d="M15 18l-6-6 6-6"/>
+        </svg>
+      </button>
+
+      <div class="filename" id="fname"></div>
+
+      <div class="action-buttons">
+        <button class="icon-btn" id="downloadBtn" onclick="downloadCode()" title="Download">
+          <svg viewBox="0 0 24 24">
+            <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/>
+          </svg>
+        </button>
+
+        <button class="icon-btn" id="copyBtn" onclick="copyCode()" title="Copy">
+          <svg viewBox="0 0 24 24">
+            <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8
+            c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11
+            c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2z"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <pre class="line-numbers"><code id="viewer" class="language-python">Loading...</pre>
+  </div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.js"></script>
+
+<script>
+const RAW_BASE = "https://raw.githubusercontent.com/xoscord/xoscord.github.io/main/Python/";
+let currentText = "";
+let currentFileName = "";
+
+function openFile(file) {
+  currentFileName = file;
+  document.getElementById("fileList").style.display = "none";
+  document.getElementById("viewerPanel").style.display = "block";
+  document.getElementById("fname").textContent = file;
+
+  const viewer = document.getElementById("viewer");
+  viewer.textContent = "Loading...";
+  currentText = "";
+
+  fetch(RAW_BASE + file)
+    .then(r => r.ok ? r.text() : Promise.reject())
+    .then(text => {
+      currentText = text;
+      viewer.textContent = text;
+      
+      // Highlight the fetched code using Prism.js
+      Prism.highlightElement(viewer);
+    })
+    .catch(() => {
+      viewer.textContent = "❌ Failed to load file.";
+    });
+}
+
+function goBack() {
+  document.getElementById("viewerPanel").style.display = "none";
+  document.getElementById("fileList").style.display = "block";
+}
+
+function copyCode() {
+  if (!currentText) return;
+  navigator.clipboard.writeText(currentText).then(() => {
+    const btn = document.getElementById("copyBtn");
+    btn.classList.add("copied");
+    setTimeout(() => btn.classList.remove("copied"), 800);
+  });
+}
+
+function downloadCode() {
+  if (!currentText || !currentFileName) return;
+  const blob = new Blob([currentText], { type: "text/plain;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = currentFileName;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+document.addEventListener('contextmenu', function(e) {
+  e.preventDefault();
+});
+</script>
+
+</body>
+</html>
