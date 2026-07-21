@@ -1,0 +1,118 @@
+/* ==========================================
+   REUSABLE CUSTOM TOOLTIPS (tipt, tipb, tipl, tipr)
+   ========================================== */
+
+/* Base container setup */
+[tipt], [tipb], [tipl], [tipr] {
+  position: relative;
+}
+
+/* Tooltip Text Bubble */
+[tipt]::after, [tipb]::after, [tipl]::after, [tipr]::after {
+  position: absolute;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  background: #1e293b;
+  color: #f8fafc;
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-family: system-ui, -apple-system, sans-serif;
+  font-weight: 500;
+  white-space: nowrap;
+  z-index: 10000;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Tooltip Arrow */
+[tipt]::before, [tipb]::before, [tipl]::before, [tipr]::before {
+  content: '';
+  position: absolute;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  border: 5px solid transparent;
+  z-index: 10001;
+}
+
+/* Show on Hover */
+[tipt]:hover::after, [tipb]:hover::after, [tipl]:hover::after, [tipr]:hover::after,
+[tipt]:hover::before, [tipb]:hover::before, [tipl]:hover::before, [tipr]:hover::before {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* --- TOP (tipt) --- */
+[tipt]::after {
+  content: attr(tipt);
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-4px);
+  margin-bottom: 6px;
+}
+[tipt]::before {
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-4px);
+  border-top-color: #1e293b;
+}
+[tipt]:hover::after, [tipt]:hover::before {
+  transform: translateX(-50%) translateY(0);
+}
+
+/* --- BOTTOM (tipb) --- */
+[tipb]::after {
+  content: attr(tipb);
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%) translateY(4px);
+  margin-top: 6px;
+}
+[tipb]::before {
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%) translateY(4px);
+  border-bottom-color: #1e293b;
+}
+[tipb]:hover::after, [tipb]:hover::before {
+  transform: translateX(-50%) translateY(0);
+}
+
+/* --- LEFT (tipl) --- */
+[tipl]::after {
+  content: attr(tipl);
+  right: 100%;
+  top: 50%;
+  transform: translateY(-50%) translateX(-4px);
+  margin-right: 6px;
+}
+[tipl]::before {
+  right: 100%;
+  top: 50%;
+  transform: translateY(-50%) translateX(-4px);
+  border-left-color: #1e293b;
+}
+[tipl]:hover::after, [tipl]:hover::before {
+  transform: translateY(-50%) translateX(0);
+}
+
+/* --- RIGHT (tipr) --- */
+[tipr]::after {
+  content: attr(tipr);
+  left: 100%;
+  top: 50%;
+  transform: translateY(-50%) translateX(4px);
+  margin-left: 6px;
+}
+[tipr]::before {
+  left: 100%;
+  top: 50%;
+  transform: translateY(-50%) translateX(4px);
+  border-right-color: #1e293b;
+}
+[tipr]:hover::after, [tipr]:hover::before {
+  transform: translateY(-50%) translateX(0);
+}
