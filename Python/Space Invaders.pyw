@@ -5,35 +5,76 @@ import json
 import os
 import sys
 import ctypes
+import base64
+import tempfile
 
-# --- Helper function to find assets inside PyInstaller temp directory ---
-def resource_path(relative_path):
-    try:
-        base_path = sys._MEIPASS
-    except AttributeError:
-        base_path = os.path.abspath(".")
-    return os.path.join(base_path, relative_path)
+# --- Embedded Base64 Icon Data ---
+ICON_BASE64 = (
+    "AAABAAEAICAAAAEAIACoEAAAFgAAACgAAAAgAAAAQAAAAAEAGAAAAAAAAAAA"
+    "AAAAAAAAAAAAAAAAAAAAAMDAwAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/"
+    "AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8A"
+    "AAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAA"
+    "AP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA"
+    "AP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA"
+    "AAAA////////////////////////////////////////////////////////"
+    "////////////////////////////////////////////////////////////"
+    "////////////////////////////////////////////////////////////"
+    "////////////////////////////////////////////////////////////"
+    "////////////////////////////////////////////////////////////"
+    "////////////////////////////////////////////////////////////"
+    "////////////////////////////////////////////////////////////"
+    "////////////////////////////////////////////////////////////"
+    "////////////////////////////////////////////////////////////"
+    "////////////////////////////////////////////////////////////"
+    "////////////////////////////////////////////////////////////"
+    "////////////////////////////////////////////////////////////"
+    "////////////////////////////////////////////////////////////"
+    "////////////////////////////////////////////////////////////"
+    "////////////////////////////////////////////////////////////"
+    "////////////////////////////////////////////////////////////"
+    "////////////////////////////////////////////////////////////"
+    "////////////////////////////////////////////////////////////"
+    "////////////////////////////////////////////////////////////"
+    "////////////////////////////////////////////////////////////"
+    "////////////////////////////////////////////////////////////"
+    "////////////////////////////////////////////////////////////"
+    "////////////////////////////////////////////////////////////"
+    "////////////////////////////////////////////////////////////"
+    "////////////////////////////////////////////////////////////"
+    "////////////////////////////////////////////////////////////"
+    "////////////////////////////////////////////////////////////"
+    "////////////////////////////////////////////////////////////"
+    "////////////////////////////////////////////////////////////"
+    "////////////////////////////////////////////////////////////"
+    "////////////////////////////////////////////////////////////"
+    "////////////////////////////////////////////////////////////"
+    "/////////////////////////////////w=="
+)
+
+# Load Base64 string into a temporary file for Tkinter
+temp_icon = tempfile.NamedTemporaryFile(delete=False, suffix=".ico")
+temp_icon.write(base64.b64decode(ICON_BASE64))
+temp_icon.close()
 
 # --- Fix Windows Taskbar Icon ---
 try:
-    myappid = 'mycompany.spaceinvaders.game.1.0'  # Arbitrary unique string
+    myappid = 'mycompany.spaceinvaders.game.1.0'
     ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(myappid)
 except Exception:
     pass
 
 title = r"""
- __                         _____                     _                
+ __                         _____                      _                
 / _\_ __   __ _  ___ ___    \_   \_ ____   ____ _  __| | ___ _ __ ___ 
 \ \| '_ \ / _` |/ __/ _ \    / /\/ '_ \ \ / / _` |/ _` |/ _ \ '__/ __|
 _\ \ |_) | (_| | (_|  __/ /\/ /_ | | | \ V / (_| | (_| |  __/ |  \__ \
 \__/ .__/ \__,_|\___\___| \____/ |_| |_|\_/ \__,_|\__,_|\___|_|  |___/
-   |_|                                                               
+   |_|                                                                
 """
 
 FRAME_RATE = 30
 TIME_FOR_1_FRAME = 1 / FRAME_RATE
 
-# Base values (levels scale these)
 CANNON_STEP = 15
 LASER_SPEED = 20
 BASE_ALIEN_SPEED = 3.5
@@ -49,16 +90,14 @@ window.title("Space Invaders")
 canvas = window.getcanvas()
 root = canvas.winfo_toplevel()
 
-# Apply window icon safely
+# Apply the embedded temporary icon file
 try:
-    root.iconbitmap(resource_path("ico.ico"))
+    root.iconbitmap(temp_icon.name)
 except Exception:
     pass
 
-# 1. Lock window dimensions to prevent resizing bugs
 root.resizable(False, False)
 
-# 2. Safely capture the window cross close ("X") button event
 keep_running = True
 def handle_window_close():
     global keep_running
@@ -75,16 +114,16 @@ GUTTER = 0.025 * window.window_width()
 
 # --- Shapes ---
 cannon_shape = (
-    (-30, -3), (-30, 3), (-10, 3),             # Top box outer
-    (-10, 45), (5, 45),                         # Left horizontal wing outer
-    (5, 3), (15, 3),                            # Stem outer
-    (15, 8), (20, 8), (20, 3), (30, 3),         # Side wing and tail outer
-    (30, -3), (20, -3), (20, -8), (15, -8),     # Right tail base outer
-    (15, -3), (5, -3),                          # Stem outer
-    (5, -45), (-10, -45),                       # Right horizontal wing outer
-    (-10, -3), (-30, -3),                       # Back to top box
-    (-30, 0),                                   # Direct bridge to interior
-    (-10, -3), (-10, 3), (5, 3), (5, -3), (-10, -3) # Hollow core
+    (-30, -3), (-30, 3), (-10, 3),
+    (-10, 45), (5, 45),
+    (5, 3), (15, 3),
+    (15, 8), (20, 8), (20, 3), (30, 3),
+    (30, -3), (20, -3), (20, -8), (15, -8),
+    (15, -3), (5, -3),
+    (5, -45), (-10, -45),
+    (-10, -3), (-30, -3),
+    (-30, 0),
+    (-10, -3), (-10, 3), (5, 3), (5, -3), (-10, -3)
 )
 window.register_shape("cannon_ship", cannon_shape)
 
@@ -347,4 +386,10 @@ while keep_running:
 try:
     window.bye()
 except turtle.Terminator:
+    pass
+
+# Clean up temporary icon file on exit
+try:
+    os.remove(temp_icon.name)
+except Exception:
     pass
